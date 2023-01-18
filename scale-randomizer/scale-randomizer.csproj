@@ -13,4 +13,8 @@
     <Folder Include="Screenshots\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Equin.ApplicationFramework.BindingListView" Version="1.4.5222.35545" />
+  </ItemGroup>
+
 </Project>

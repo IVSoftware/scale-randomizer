@@ -1,5 +1,7 @@
+using Equin.ApplicationFramework;
 using System.ComponentModel;
 using System.Globalization;
+using static System.Net.WebRequestMethods;
 
 namespace scale_randomizer
 {
@@ -71,10 +73,18 @@ namespace scale_randomizer
                     "F", "G", "A",
                     $"B{Signature.Flat.ToUnicode()}"},
             });
+            Scales.Add(new Scale
+            {
+                Key = Key.A,
+                Form = ScaleForm.Minor,
+                Notes = new[] { "A", "B", "C", "D", "E", "F", "G", "A" },
+            });
             comboBoxScales.TabStop= false;
             comboBoxScales.DropDownStyle= ComboBoxStyle.DropDownList;
             // Attach the list of scales
-            comboBoxScales.DataSource= Scales;
+            FilteredScales = new BindingListView<Scale>(Scales);
+            comboBoxScales.DataSource= FilteredScales;
+            onRadioMajorChecked(this, EventArgs.Empty);
             // Initialize the value
             onScaleSelectionChanged(this, EventArgs.Empty);
             // Respond to combo box changes
@@ -83,14 +93,29 @@ namespace scale_randomizer
             buttonRandomize.Click += onClickRandomize;
             // Respond to automated timer checkbox changes
             checkBoxTimer.CheckedChanged += onTimerCheckedChanged;
+
+            radioButtonMajor.CheckedChanged += onRadioMajorChecked;
+            radioButton2.CheckedChanged += onRadioMinorChecked;
         }
 
-        BindingList<Scale> Scales = new BindingList<Scale>();
+        private void onRadioMajorChecked(object? sender, EventArgs e) =>
+            FilteredScales.ApplyFilter(_=>_.Form.Equals(ScaleForm.Major));
+        private void onRadioMinorChecked(object? sender, EventArgs e) =>
+            FilteredScales.ApplyFilter(_=>_.Form.Equals(ScaleForm.Minor));
+
+        List<Scale> Scales = new List<Scale>();
+
+        // https://stackoverflow.com/a/165333/5438626
+        BindingListView<Scale> FilteredScales;
 
         private void onScaleSelectionChanged(object? sender, EventArgs e)
         {
-            labelCurrentNote.Text =
-                ((Scale)comboBoxScales.SelectedItem).Notes[0];
+            if (comboBoxScales.SelectedIndex >= 0)
+            {
+                var scale
+                    = ((ObjectView<Scale>)comboBoxScales.SelectedItem).Object;
+                labelCurrentNote.Text = scale.Notes[0];
+            }
             // https://stackoverflow.com/a/24417483/5438626
             this.ActiveControl = null;
         }

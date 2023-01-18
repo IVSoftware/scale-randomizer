@@ -35,6 +35,8 @@
             this.checkBoxTimer = new System.Windows.Forms.CheckBox();
             this.numericUpDownSeconds = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.radioButtonMajor = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeconds)).BeginInit();
             this.SuspendLayout();
             // 
@@ -121,12 +123,36 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Interval (secs):";
             // 
+            // radioButton1
+            // 
+            this.radioButtonMajor.AutoSize = true;
+            this.radioButtonMajor.Checked = true;
+            this.radioButtonMajor.Location = new System.Drawing.Point(32, 642);
+            this.radioButtonMajor.Name = "radioButton1";
+            this.radioButtonMajor.Size = new System.Drawing.Size(83, 29);
+            this.radioButtonMajor.TabIndex = 7;
+            this.radioButtonMajor.TabStop = true;
+            this.radioButtonMajor.Text = "Major";
+            this.radioButtonMajor.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(131, 642);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(84, 29);
+            this.radioButton2.TabIndex = 7;
+            this.radioButton2.Text = "Minor";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LavenderBlush;
             this.ClientSize = new System.Drawing.Size(492, 720);
+            this.Controls.Add(this.radioButton2);
+            this.Controls.Add(this.radioButtonMajor);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDownSeconds);
             this.Controls.Add(this.checkBoxTimer);
@@ -151,5 +177,7 @@
         private CheckBox checkBoxTimer;
         private NumericUpDown numericUpDownSeconds;
         private Label label1;
+        private RadioButton radioButtonMajor;
+        private RadioButton radioButton2;
     }
 }
