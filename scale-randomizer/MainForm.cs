@@ -34,15 +34,24 @@ namespace scale_randomizer
                 Name = "G Major",
                 Notes = new[] { "G", "A", "B", "C", "D", "E", "F#", "G", },
             });
-            comboBoxScales.TabStop = false;
+            comboBoxScales.TabStop= false;
             comboBoxScales.DropDownStyle= ComboBoxStyle.DropDownList;
+            // Attach the list of scales
             comboBoxScales.DataSource= Scales;
-            onScaleSelectionChanged(this, EventArgs.Empty); // Init value
+            // Initialize the value
+            onScaleSelectionChanged(this, EventArgs.Empty);
+            // Respond to combo box changes
             comboBoxScales.SelectedIndexChanged += onScaleSelectionChanged;
+            // Respond to click randomize
             buttonRandomize.Click += onClickRandomize;
         }
+        BindingList<Scale> Scales = new BindingList<Scale>();
 
-        private void onClickRandomize(object? sender, EventArgs e)
+        // Declare random generator ONCE
+        private readonly Random _rando = new Random();
+        private void onClickRandomize(object? sender, EventArgs e) =>
+            execNextRandom(sender, e);
+        private void execNextRandom(object? sender, EventArgs e)
         {
             string preview;
             do
@@ -53,7 +62,6 @@ namespace scale_randomizer
                    ((Scale)comboBoxScales.SelectedItem)
                    .Notes[_rando.Next(0, 8)];
             } while (preview.Equals(labelCurrentNote.Text));
-
             labelCurrentNote.Text = preview;
         }
 
@@ -64,16 +72,14 @@ namespace scale_randomizer
             // https://stackoverflow.com/a/24417483/5438626
             this.ActiveControl = null;
         }
-
-        BindingList<Scale> Scales = new BindingList<Scale>();
-        // Declare random generator ONCE
-        private readonly Random _rando = new Random();
     }
 
     class Scale
     {
         public string Name { get; set; } = string.Empty;
         public string[] Notes { get; set; } = new string[0];
+
+        // Determines what will show in the ComboBox
         public override string ToString() => Name;
     }
 }
