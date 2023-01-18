@@ -44,8 +44,19 @@ namespace scale_randomizer
             comboBoxScales.SelectedIndexChanged += onScaleSelectionChanged;
             // Respond to click randomize
             buttonRandomize.Click += onClickRandomize;
+            // Respond to automated timer checkbox changes
+            checkBoxTimer.CheckedChanged += onTimerCheckedChanged;
         }
+
         BindingList<Scale> Scales = new BindingList<Scale>();
+
+        private void onScaleSelectionChanged(object? sender, EventArgs e)
+        {
+            labelCurrentNote.Text =
+                ((Scale)comboBoxScales.SelectedItem).Notes[0];
+            // https://stackoverflow.com/a/24417483/5438626
+            this.ActiveControl = null;
+        }
 
         // Declare random generator ONCE
         private readonly Random _rando = new Random();
@@ -65,12 +76,16 @@ namespace scale_randomizer
             labelCurrentNote.Text = preview;
         }
 
-        private void onScaleSelectionChanged(object? sender, EventArgs e)
+        private async void onTimerCheckedChanged(object? sender, EventArgs e)
         {
-            labelCurrentNote.Text = 
-                ((Scale)comboBoxScales.SelectedItem).Notes[0];
-            // https://stackoverflow.com/a/24417483/5438626
-            this.ActiveControl = null;
+            if(checkBoxTimer.Checked) 
+            {
+                while(checkBoxTimer.Checked) 
+                {
+                    execNextRandom(sender, e);
+                    await Task.Delay(TimeSpan.FromSeconds((double)numericUpDownSeconds.Value));
+                }
+            }
         }
     }
 

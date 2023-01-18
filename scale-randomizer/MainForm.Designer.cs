@@ -32,6 +32,10 @@
             this.labelScale = new System.Windows.Forms.Label();
             this.labelCurrentNote = new System.Windows.Forms.Label();
             this.buttonRandomize = new System.Windows.Forms.Button();
+            this.checkBoxTimer = new System.Windows.Forms.CheckBox();
+            this.numericUpDownSeconds = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeconds)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBoxScales
@@ -56,7 +60,7 @@
             // 
             this.labelCurrentNote.AutoSize = true;
             this.labelCurrentNote.Font = new System.Drawing.Font("Segoe UI", 100F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCurrentNote.Location = new System.Drawing.Point(120, 67);
+            this.labelCurrentNote.Location = new System.Drawing.Point(129, 67);
             this.labelCurrentNote.Name = "labelCurrentNote";
             this.labelCurrentNote.Size = new System.Drawing.Size(213, 265);
             this.labelCurrentNote.TabIndex = 2;
@@ -73,18 +77,66 @@
             this.buttonRandomize.Text = "RANDOMIZE";
             this.buttonRandomize.UseVisualStyleBackColor = false;
             // 
+            // checkBoxTimer
+            // 
+            this.checkBoxTimer.AutoSize = true;
+            this.checkBoxTimer.Location = new System.Drawing.Point(263, 432);
+            this.checkBoxTimer.Name = "checkBoxTimer";
+            this.checkBoxTimer.Size = new System.Drawing.Size(177, 29);
+            this.checkBoxTimer.TabIndex = 4;
+            this.checkBoxTimer.Text = "Automated Timer";
+            this.checkBoxTimer.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDownSeconds
+            // 
+            this.numericUpDownSeconds.DecimalPlaces = 1;
+            this.numericUpDownSeconds.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.numericUpDownSeconds.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.numericUpDownSeconds.Location = new System.Drawing.Point(263, 636);
+            this.numericUpDownSeconds.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.numericUpDownSeconds.Name = "numericUpDownSeconds";
+            this.numericUpDownSeconds.Size = new System.Drawing.Size(121, 39);
+            this.numericUpDownSeconds.TabIndex = 5;
+            this.numericUpDownSeconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownSeconds.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(263, 599);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(122, 25);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Interval (secs):";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LavenderBlush;
             this.ClientSize = new System.Drawing.Size(492, 720);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.numericUpDownSeconds);
+            this.Controls.Add(this.checkBoxTimer);
             this.Controls.Add(this.buttonRandomize);
             this.Controls.Add(this.labelCurrentNote);
             this.Controls.Add(this.labelScale);
             this.Controls.Add(this.comboBoxScales);
             this.Name = "MainForm";
             this.Text = "Piano Memorization Tool";
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeconds)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -96,5 +148,8 @@
         private Label labelScale;
         private Label labelCurrentNote;
         private Button buttonRandomize;
+        private CheckBox checkBoxTimer;
+        private NumericUpDown numericUpDownSeconds;
+        private Label label1;
     }
 }
