@@ -98,10 +98,16 @@ namespace scale_randomizer
             radioButton2.CheckedChanged += onRadioMinorChecked;
         }
 
-        private void onRadioMajorChecked(object? sender, EventArgs e) =>
-            FilteredScales.ApplyFilter(_=>_.Form.Equals(ScaleForm.Major));
-        private void onRadioMinorChecked(object? sender, EventArgs e) =>
-            FilteredScales.ApplyFilter(_=>_.Form.Equals(ScaleForm.Minor));
+        private void onRadioMajorChecked(object? sender, EventArgs e)
+        {
+            FilteredScales.ApplyFilter(_ => _.Form.Equals(ScaleForm.Major));
+            onScaleSelectionChanged(sender, e);
+        }
+        private void onRadioMinorChecked(object? sender, EventArgs e)
+        {
+            FilteredScales.ApplyFilter(_ => _.Form.Equals(ScaleForm.Minor));
+            onScaleSelectionChanged(sender, e);
+        }
 
         List<Scale> Scales = new List<Scale>();
 
