@@ -9,27 +9,27 @@ namespace scale_randomizer
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            Scales.Add(new scale_randomizer.Scale
+            Scales.Add(new Scale
             {
                 Name = "C Major",
                 Notes = new[]{ "C", "D", "E", "F", "G", "A", "B", "C", },
             });
-            Scales.Add(new scale_randomizer.Scale
+            Scales.Add(new Scale
             {
                 Name = "D Major",
                 Notes = new[] { "D", "E", "F#", "G", "A", "B", "C#", "D", },
             });
-            Scales.Add(new scale_randomizer.Scale
+            Scales.Add(new Scale
             {
                 Name = "E Major",
                 Notes = new[] { "E", "F#", "G#", "A", "B", "C#", "D#", "E", },
             });
-            Scales.Add(new scale_randomizer.Scale
+            Scales.Add(new Scale
             {
                 Name = "F Major",
                 Notes = new[] { "F", "G", "A", "Bb", "C", "D", "E", "F", },
             });
-            Scales.Add(new scale_randomizer.Scale
+            Scales.Add(new Scale
             {
                 Name = "G Major",
                 Notes = new[] { "G", "A", "B", "C", "D", "E", "F#", "G", },
