@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Globalization;
 
 namespace scale_randomizer
 {
@@ -11,28 +12,38 @@ namespace scale_randomizer
             base.OnLoad(e);
             Scales.Add(new Scale
             {
-                Name = "C Major",
-                Notes = new[]{ "C", "D", "E", "F", "G", "A", "B", "C", },
+                Tonic = Key.C,
+                Notes = new[] { "C", "D", "E", "F", "G", "A", "B", "C", },
             });
             Scales.Add(new Scale
             {
-                Name = "D Major",
+                Tonic = Key.D,
                 Notes = new[] { "D", "E", "F#", "G", "A", "B", "C#", "D", },
             });
             Scales.Add(new Scale
             {
-                Name = "E Major",
+                Tonic = Key.E,
                 Notes = new[] { "E", "F#", "G#", "A", "B", "C#", "D#", "E", },
             });
             Scales.Add(new Scale
             {
-                Name = "F Major",
+                Tonic = Key.F,
                 Notes = new[] { "F", "G", "A", "Bb", "C", "D", "E", "F", },
             });
             Scales.Add(new Scale
             {
-                Name = "G Major",
+                Tonic = Key.G,
                 Notes = new[] { "G", "A", "B", "C", "D", "E", "F#", "G", },
+            });
+            Scales.Add(new Scale
+            {
+                Tonic = Key.B, Signature = Signature.Flat, 
+                Notes = new[] { 
+                    $"B{Signature.Flat.ToUnicode()}", 
+                    "C", "D", 
+                    $"E{Signature.Flat.ToUnicode()}", 
+                    "F", "G", "A",
+                    $"B{Signature.Flat.ToUnicode()}"},
             });
             comboBoxScales.TabStop= false;
             comboBoxScales.DropDownStyle= ComboBoxStyle.DropDownList;
@@ -88,13 +99,29 @@ namespace scale_randomizer
             }
         }
     }
-
+    
+    enum ScaleForm { Major, Minor }
+    enum Key { A, B, C, D, E, F, G }
+    enum Signature { Natural, [Description("\u266F")] Sharp, [Description("\u266D")] Flat }
     class Scale
     {
-        public string Name { get; set; } = string.Empty;
+        public Key Tonic { get; set; }
+        public ScaleForm Form { get; set; }
+        public Signature Signature { get; set; }
         public string[] Notes { get; set; } = new string[0];
-
-        // Determines what will show in the ComboBox
-        public override string ToString() => Name;
+        // Determines what displays in the ComboBox
+        public override string ToString()=> $"{Tonic}{Signature.ToUnicode()} {Form}";
+    }
+    static class Extensions
+    {
+        public static string ToUnicode(this Signature signature)
+        {
+            switch (signature)
+            {
+                default: return string.Empty;
+                case Signature.Sharp: return "\u266F";
+                case Signature.Flat: return "\u266D";
+            }
+        }
     }
 }
