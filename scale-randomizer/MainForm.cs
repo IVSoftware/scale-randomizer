@@ -12,32 +12,58 @@ namespace scale_randomizer
             base.OnLoad(e);
             Scales.Add(new Scale
             {
-                Tonic = Key.C,
+                Key = Key.C,
                 Notes = new[] { "C", "D", "E", "F", "G", "A", "B", "C", },
             });
             Scales.Add(new Scale
             {
-                Tonic = Key.D,
-                Notes = new[] { "D", "E", "F#", "G", "A", "B", "C#", "D", },
+                Key = Key.D,
+                Notes = new[] 
+                { 
+                    "D", "E", 
+                    $"F{Signature.Sharp.ToUnicode()}", 
+                    "G", "A", "B", 
+                    $"C{Signature.Sharp.ToUnicode()}", 
+                    "D", 
+                },
             });
             Scales.Add(new Scale
             {
-                Tonic = Key.E,
-                Notes = new[] { "E", "F#", "G#", "A", "B", "C#", "D#", "E", },
+                Key = Key.E,
+                Notes = new[] 
+                { 
+                    "E", 
+                    $"F{Signature.Sharp.ToUnicode()}", 
+                    $"G{Signature.Sharp.ToUnicode()}", 
+                    "A", "B", 
+                    $"C{Signature.Sharp.ToUnicode()}", 
+                    $"D{Signature.Sharp.ToUnicode()}", 
+                    "E", 
+                },
             });
             Scales.Add(new Scale
             {
-                Tonic = Key.F,
-                Notes = new[] { "F", "G", "A", "Bb", "C", "D", "E", "F", },
+                Key = Key.F,
+                Notes = new[] 
+                { 
+                    "F", "G", "A", 
+                    $"B{Signature.Flat.ToUnicode()}", 
+                    "C", "D", "E", "F",
+                },
             });
             Scales.Add(new Scale
             {
-                Tonic = Key.G,
-                Notes = new[] { "G", "A", "B", "C", "D", "E", "F#", "G", },
+                Key = Key.G,
+                Notes = new[] 
+                { 
+                    "G", "A", "B", "C", "D", "E", 
+                    $"F{Signature.Sharp.ToUnicode()}", 
+                    "G", 
+                },
             });
             Scales.Add(new Scale
             {
-                Tonic = Key.B, Signature = Signature.Flat, 
+                Key = Key.B, Signature = Signature.Flat, 
                 Notes = new[] { 
                     $"B{Signature.Flat.ToUnicode()}", 
                     "C", "D", 
@@ -105,12 +131,12 @@ namespace scale_randomizer
     enum Signature { Natural, [Description("\u266F")] Sharp, [Description("\u266D")] Flat }
     class Scale
     {
-        public Key Tonic { get; set; }
+        public Key Key { get; set; }
         public ScaleForm Form { get; set; }
         public Signature Signature { get; set; }
         public string[] Notes { get; set; } = new string[0];
         // Determines what displays in the ComboBox
-        public override string ToString()=> $"{Tonic}{Signature.ToUnicode()} {Form}";
+        public override string ToString()=> $"{Key}{Signature.ToUnicode()} {Form}";
     }
     static class Extensions
     {
