@@ -93,7 +93,7 @@ namespace scale_randomizer
             buttonRandomize.Click += onClickRandomize;
             // Respond to automated timer checkbox changes
             checkBoxTimer.CheckedChanged += onTimerCheckedChanged;
-
+            // Apply filter
             radioButtonMajor.CheckedChanged += onRadioMajorChecked;
             radioButton2.CheckedChanged += onRadioMinorChecked;
         }
@@ -116,11 +116,9 @@ namespace scale_randomizer
 
         private void onScaleSelectionChanged(object? sender, EventArgs e)
         {
-            if (comboBoxScales.SelectedIndex >= 0)
+            if(comboBoxScales.TryGetSelectedScale(out Scale? scale))
             {
-                var scale
-                    = ((ObjectView<Scale>)comboBoxScales.SelectedItem).Object;
-                labelCurrentNote.Text = scale.Notes[0];
+                labelCurrentNote.Text = scale!.Notes[0];
             }
             // https://stackoverflow.com/a/24417483/5438626
             this.ActiveControl = null;
@@ -132,16 +130,21 @@ namespace scale_randomizer
             execNextRandom(sender, e);
         private void execNextRandom(object? sender, EventArgs e)
         {
-            string preview;
-            do
+            if (comboBoxScales.TryGetSelectedScale(out Scale? scale))
             {
-                // Randomize, but do not repeat because it makes
-                // it seem like the button doesn't work!
-                preview =
-                   ((Scale)comboBoxScales.SelectedItem)
-                   .Notes[_rando.Next(0, 8)];
-            } while (preview.Equals(labelCurrentNote.Text));
-            labelCurrentNote.Text = preview;
+                string preview;
+                do
+                {
+                    // Randomize, but do not repeat because it makes
+                    // it seem like the button doesn't work!
+                    preview = scale!.Notes[_rando.Next(0, 8)];
+                } while (preview.Equals(labelCurrentNote.Text));
+                labelCurrentNote.Text = preview;
+            }
+            else
+            {
+                labelCurrentNote.Text = "*";
+            }
         }
 
         private async void onTimerCheckedChanged(object? sender, EventArgs e)
@@ -179,6 +182,11 @@ namespace scale_randomizer
                 case Signature.Sharp: return "\u266F";
                 case Signature.Flat: return "\u266D";
             }
+        }
+        public static bool TryGetSelectedScale(this ComboBox @this, out Scale? scale)
+        {
+            scale = (Scale)((ObjectView<Scale>)@this.SelectedItem);
+            return scale != null;
         }
     }
 }
