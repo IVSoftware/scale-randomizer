@@ -58,13 +58,13 @@
             // 
             // labelCurrentNote
             // 
-            this.labelCurrentNote.AutoSize = true;
             this.labelCurrentNote.Font = new System.Drawing.Font("Segoe UI", 100F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCurrentNote.Location = new System.Drawing.Point(129, 67);
+            this.labelCurrentNote.Location = new System.Drawing.Point(32, 67);
             this.labelCurrentNote.Name = "labelCurrentNote";
-            this.labelCurrentNote.Size = new System.Drawing.Size(213, 265);
+            this.labelCurrentNote.Size = new System.Drawing.Size(405, 265);
             this.labelCurrentNote.TabIndex = 2;
             this.labelCurrentNote.Text = "E";
+            this.labelCurrentNote.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttonRandomize
             // 
