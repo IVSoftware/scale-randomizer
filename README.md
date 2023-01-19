@@ -36,6 +36,11 @@ One approach is to define a `class` that represents a Scale. This associates the
                 case Signature.Flat: return "\u266D";
             }
         }
+        public static bool TryGetSelectedScale(this ComboBox @this, out Scale? scale)
+        {
+            scale = (Scale)((ObjectView<Scale>)@this.SelectedItem);
+            return scale != null;
+        }
     }
 
 Next make a list of `Scale` objects that will be the dynamic source of the combo box:
@@ -124,6 +129,9 @@ Initialize the individual scales _and_ the list of scales in the method that loa
             buttonRandomize.Click += onClickRandomize;
             // Respond to automated timer checkbox changes
             checkBoxTimer.CheckedChanged += onTimerCheckedChanged;
+            // Apply filter
+            radioButtonMajor.CheckedChanged += onRadioMajorChecked;
+            radioButton2.CheckedChanged += onRadioMinorChecked;
         }
         .
         .
@@ -134,8 +142,23 @@ Also in the same method, the event handlers are attached. For example, when a ne
 
     private void onScaleSelectionChanged(object? sender, EventArgs e)
     {
-        labelCurrentNote.Text =
-            ((Scale)comboBoxScales.SelectedItem).Notes[0];
+        if(comboBoxScales.TryGetSelectedScale(out Scale? scale))
+        {
+            labelCurrentNote.Text = scale!.Notes[0];
+        }
+    }
+
+Radio button changes cause new filtering to be applied
+
+    private void onRadioMajorChecked(object? sender, EventArgs e)
+    {
+        FilteredScales.ApplyFilter(_ => _.Form.Equals(ScaleForm.Major));
+        onScaleSelectionChanged(sender, e);
+    }
+    private void onRadioMinorChecked(object? sender, EventArgs e)
+    {
+        FilteredScales.ApplyFilter(_ => _.Form.Equals(ScaleForm.Minor));
+        onScaleSelectionChanged(sender, e);
     }
 
 ***
