@@ -201,4 +201,4 @@ One of the easier ways to get a repeating function is to make an async handler f
     }
 
 
-  [1]: https://i.stack.imgur.com/WUPCc.png
+  [1]: https://github.com/IVSoftware/scale-randomizer/blob/filter-data-source/scale-randomizer/Screenshots/screenshot.png
