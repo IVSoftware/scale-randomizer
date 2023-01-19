@@ -1,4 +1,4 @@
-Your question and code covers a few related areas:
+Your question and code cover a few related areas:
 
 - Dynamically change which array (of notes) is used for the label based on combo box selection.
 - Use the `Random` class correctly to implement the Randomize function.
@@ -18,12 +18,12 @@ One approach is to define a `class` that represents a Scale. This associates the
     enum Signature { Natural, [Description("\u266F")] Sharp, [Description("\u266D")] Flat }
     class Scale
     {
-        public Key Tonic { get; set; }
+        public Key Key{ get; set; }
         public ScaleForm Form { get; set; }
         public Signature Signature { get; set; }
         public string[] Notes { get; set; } = new string[0];
         // Determines what displays in the ComboBox
-        public override string ToString()=> $"{Tonic}{Signature.ToUnicode()} {Form}";
+        public override string ToString()=> $"{Key}{Signature.ToUnicode()} {Form}";
     }
     static class Extensions
     {
@@ -38,7 +38,7 @@ One approach is to define a `class` that represents a Scale. This associates the
         }
     }
 
-What we do next is make a list of `Scale` objects that will be the dynamic source of the combo box:
+Next make a list of `Scale` objects that will be the dynamic source of the combo box:
 
     BindingList<Scale> Scales = new BindingList<Scale>();
 
@@ -53,32 +53,58 @@ Initialize the individual scales _and_ the list of scales in the method that loa
             base.OnLoad(e);
             Scales.Add(new Scale
             {
-                Tonic = Key.C,
+                Key = Key.C,
                 Notes = new[] { "C", "D", "E", "F", "G", "A", "B", "C", },
+            });            
+            Scales.Add(new Scale
+            {
+                Key = Key.D,
+                Notes = new[] 
+                { 
+                    "D", "E", 
+                    $"F{Signature.Sharp.ToUnicode()}", 
+                    "G", "A", "B", 
+                    $"C{Signature.Sharp.ToUnicode()}", 
+                    "D", 
+                },
             });
             Scales.Add(new Scale
             {
-                Tonic = Key.D,
-                Notes = new[] { "D", "E", "F#", "G", "A", "B", "C#", "D", },
+                Key = Key.E,
+                Notes = new[] 
+                { 
+                    "E", 
+                    $"F{Signature.Sharp.ToUnicode()}", 
+                    $"G{Signature.Sharp.ToUnicode()}", 
+                    "A", "B", 
+                    $"C{Signature.Sharp.ToUnicode()}", 
+                    $"D{Signature.Sharp.ToUnicode()}", 
+                    "E", 
+                },
             });
             Scales.Add(new Scale
             {
-                Tonic = Key.E,
-                Notes = new[] { "E", "F#", "G#", "A", "B", "C#", "D#", "E", },
+                Key = Key.F,
+                Notes = new[] 
+                { 
+                    "F", "G", "A", 
+                    $"B{Signature.Flat.ToUnicode()}", 
+                    "C", "D", "E", "F",
+                },
             });
             Scales.Add(new Scale
             {
-                Tonic = Key.F,
-                Notes = new[] { "F", "G", "A", "Bb", "C", "D", "E", "F", },
+                Key = Key.G,
+                Notes = new[] 
+                { 
+                    "G", "A", "B", "C", "D", "E", 
+                    $"F{Signature.Sharp.ToUnicode()}", 
+                    "G", 
+                },
             });
             Scales.Add(new Scale
             {
-                Tonic = Key.G,
-                Notes = new[] { "G", "A", "B", "C", "D", "E", "F#", "G", },
-            });
-            Scales.Add(new Scale
-            {
-                Tonic = Key.B, Signature = Signature.Flat, 
+                Key = Key.B, Signature = Signature.Flat, 
                 Notes = new[] { 
                     $"B{Signature.Flat.ToUnicode()}", 
                     "C", "D", 
@@ -104,7 +130,7 @@ Initialize the individual scales _and_ the list of scales in the method that loa
         .
     }
 
-Also in the same method, the event handlers are also attached. For example, when a new scale is chosen in the combo box, the first thing that happens is that the label is set to the root.
+Also in the same method, the event handlers are attached. For example, when a new scale is chosen in the combo box, the first thing that happens is that the label is set to the root.
 
     private void onScaleSelectionChanged(object? sender, EventArgs e)
     {
@@ -115,13 +141,13 @@ Also in the same method, the event handlers are also attached. For example, when
 ***
 **Using the `Random` class**
 
-You only need one instance of `Random`. For testing, you can produce the _same_ pseudorandom sequence of numbers every time by seeding it with an int, e.g. `new Random(1)`. But as shown here, the seed is derived from the system clock.
+You only need one instance of `Random`. For testing, you can produce the _same_ pseudorandom sequence of numbers every time by seeding it with an int, e.g. `new Random(1)`. But as shown here, the seed is derived from the system clock for a different sequence every time you run it.
 
     private readonly Random _rando = new Random();
     private void onClickRandomize(object? sender, EventArgs e) =>
         execNextRandom(sender, e);
 
-One implementation would be to get a number between 0 and 7 inclusive, and use it to dereference an array value from the current selection in the combo box. This also makes a point of getting a _new_ not every click so the user feels confident when they click.
+One implementation would be to get a number between 0 and 7 inclusive, and use it to dereference an array value from the current selection in the combo box. This also makes a point of getting a _new_ note on every click so the user feels confident when they click.
 
     private void execNextRandom(object? sender, EventArgs e)
     {
@@ -132,7 +158,7 @@ One implementation would be to get a number between 0 and 7 inclusive, and use i
             // it seem like the button doesn't work!
             preview =
                 ((Scale)comboBoxScales.SelectedItem)
-                .Notes[_rando.Next(0, 8)];
+                .Notes[_rando.Next(0, 8)];  // Will never return 8!
         } while (preview.Equals(labelCurrentNote.Text));
         labelCurrentNote.Text = preview;
     }
@@ -144,15 +170,12 @@ One of the easier ways to get a repeating function is to make an async handler f
 
     private async void onTimerCheckedChanged(object? sender, EventArgs e)
     {
-        if(checkBoxTimer.Checked) 
+        while(checkBoxTimer.Checked) 
         {
-            while(checkBoxTimer.Checked) 
-            {
-                execNextRandom(sender, e);
-                await Task.Delay(TimeSpan.FromSeconds((double)numericUpDownSeconds.Value));
-            }
+            execNextRandom(sender, e);
+            await Task.Delay(TimeSpan.FromSeconds((double)numericUpDownSeconds.Value));
         }
     }
 
 
-  [1]: https://i.stack.imgur.com/JIjDG.png
+  [1]: https://i.stack.imgur.com/WUPCc.png

@@ -137,7 +137,8 @@ namespace scale_randomizer
                 {
                     // Randomize, but do not repeat because it makes
                     // it seem like the button doesn't work!
-                    preview = scale!.Notes[_rando.Next(0, 8)];
+                    var noteIndex = _rando.Next(0, scale!.Notes.Length);
+                    preview = scale!.Notes[noteIndex];
                 } while (preview.Equals(labelCurrentNote.Text));
                 labelCurrentNote.Text = preview;
             }
@@ -149,13 +150,10 @@ namespace scale_randomizer
 
         private async void onTimerCheckedChanged(object? sender, EventArgs e)
         {
-            if(checkBoxTimer.Checked) 
+            while (checkBoxTimer.Checked)
             {
-                while(checkBoxTimer.Checked) 
-                {
-                    execNextRandom(sender, e);
-                    await Task.Delay(TimeSpan.FromSeconds((double)numericUpDownSeconds.Value));
-                }
+                execNextRandom(sender, e);
+                await Task.Delay(TimeSpan.FromSeconds((double)numericUpDownSeconds.Value));
             }
         }
     }
