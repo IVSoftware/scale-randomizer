@@ -97,6 +97,9 @@ namespace scale_randomizer
             radioButtonMajor.CheckedChanged += onRadioMajorChecked;
             radioButton2.CheckedChanged += onRadioMinorChecked;
         }
+        List<Scale> Scales = new List<Scale>();
+        // https://stackoverflow.com/a/165333/5438626
+        BindingListView<Scale> FilteredScales;
 
         private void onRadioMajorChecked(object? sender, EventArgs e)
         {
@@ -108,11 +111,6 @@ namespace scale_randomizer
             FilteredScales.ApplyFilter(_ => _.Form.Equals(ScaleForm.Minor));
             onScaleSelectionChanged(sender, e);
         }
-
-        List<Scale> Scales = new List<Scale>();
-
-        // https://stackoverflow.com/a/165333/5438626
-        BindingListView<Scale> FilteredScales;
 
         private void onScaleSelectionChanged(object? sender, EventArgs e)
         {

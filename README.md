@@ -120,6 +120,12 @@ Initialize the individual scales _and_ the list of scales in the method that loa
             comboBoxScales.TabStop= false;
             comboBoxScales.DropDownStyle= ComboBoxStyle.DropDownList;
             // Attach the list of scales
+            FilteredScales = new BindingListView<Scale>(Scales);
+            comboBoxScales.DataSource= FilteredScales;
+            onRadioMajorChecked(this, EventArgs.Empty);
+            // Initialize the value
+            onScaleSelectionChanged(this, EventArgs.Empty);
+            // Attach the list of scales
             comboBoxScales.DataSource= Scales;
             // Initialize the value
             onScaleSelectionChanged(this, EventArgs.Empty);
@@ -137,6 +143,9 @@ Initialize the individual scales _and_ the list of scales in the method that loa
         .
         .
     }
+    List<Scale> Scales = new List<Scale>();
+    // https://stackoverflow.com/a/165333/5438626
+    BindingListView<Scale> FilteredScales;
 
 Also in the same method, the event handlers are attached. For example, when a new scale is chosen in the combo box, the first thing that happens is that the label is set to the root.
 
