@@ -183,16 +183,22 @@ One implementation would be to get a number between 0 and 7 inclusive, and use i
 
     private void execNextRandom(object? sender, EventArgs e)
     {
-        string preview;
-        do
+        if (comboBoxScales.TryGetSelectedScale(out Scale? scale))
         {
-            // Randomize, but do not repeat because it makes
-            // it seem like the button doesn't work!
-            preview =
-                ((Scale)comboBoxScales.SelectedItem)
-                .Notes[_rando.Next(0, 8)];  // Will never return 8!
-        } while (preview.Equals(labelCurrentNote.Text));
-        labelCurrentNote.Text = preview;
+            string preview;
+            do
+            {
+                // Randomize, but do not repeat because it makes
+                // it seem like the button doesn't work!
+                var noteIndex = _rando.Next(0, scale!.Notes.Length);
+                preview = scale!.Notes[noteIndex];
+            } while (preview.Equals(labelCurrentNote.Text));
+            labelCurrentNote.Text = preview;
+        }
+        else
+        {
+            labelCurrentNote.Text = "*";
+        }
     }
 
 ***
