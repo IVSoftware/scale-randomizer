@@ -130,9 +130,8 @@ One implementation would be to get a number between 0 and 7 inclusive, and use i
         {
             // Randomize, but do not repeat because it makes
             // it seem like the button doesn't work!
-            preview =
-                ((Scale)comboBoxScales.SelectedItem)
-                .Notes[_rando.Next(0, 8)];
+            var scale = ((Scale)comboBoxScales.SelectedItem);
+            preview = scale.Notes[_rando.Next(0, scale.Notes.Length)];
         } while (preview.Equals(labelCurrentNote.Text));
         labelCurrentNote.Text = preview;
     }
